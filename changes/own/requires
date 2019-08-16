@@ -1,0 +1,10 @@
+NAME=linux-jetware-appliance
+NAME=mysql-sqldatabase
+NAME=wordpress-oneclickapp>=1.1
+NAME=wordpress=^4.8
+NAME=php=^7.1.6
+NAME=mariadb-mysqld=^10.2.6
+NAME=min-nginx=^1.12.0
+NAME=selfmanagement_preset=^
+NAME=phpmyadmin=^4.7.2
+NAME=nginx-webserver

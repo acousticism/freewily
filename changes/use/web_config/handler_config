@@ -1,0 +1,122 @@
+#!/bin/sh
+
+# Input
+# 
+#   Environment:
+#
+#      ROLES        - roles list
+
+log() {
+	echo "$*" >&2
+}
+
+die() {
+	log "$1"
+	CODE=500 output "Internal server error"
+}
+
+err() {
+	log "$1"
+	return ${2:-1}
+}
+
+. "$JET_ROOT/own/bin/eas_role.sh"
+. "$JET_ROOT/own/bin/env_role"
+
+CODE="200 Ok"
+TITLE=
+
+# Usage: [CODE=...] [TITLE=...] $FUNC html_body [headers ...]
+output() {
+	local body="$1" output=
+	shift
+	output="HTTP/1.0 ${CODE}\r\nContent-type: text/html; charset=UTF-8\r\n"
+	for header in "$@"; do
+		output="$output$header\r\n"
+	done
+	output="$output\r\n"
+	printf "%b" "$output"
+
+	TITLE="Web config: $TITLE" "$JET_ROOT/etc/web_layout/html" frontpage <<_EOF_
+<h1>$TITLE</h1>
+$body
+_EOF_
+	exit 0
+}
+
+body=
+
+# Usage: $FUNC var value
+append() {
+	eval $1=\"\$$1\$2\"
+}
+
+# Usage: $FUNC redirect_url
+redirect() {
+	CODE='302' output "<a href='$1'>$1</a>" "Location: $1"
+}
+
+unhandled() {
+	CODE="404 Not found" output "Unhandled request '$REQUEST_METHOD $REQUEST_URI'"
+}
+
+forbidden() {
+	CODE="403 Forbidden" output "Forbidden request '$REQUEST_METHOD $REQUEST_URI'"
+}
+
+# Usage: $FUNC "string"
+# Outputs to stdout encoded string.
+htmlinputencode() {
+	sed -e 's/&/\&amp;/g; s/</\&lt;/g; s/"/\&quot;/g; s/'"'"'/\&apos;/g' <<_EOF_
+$1
+_EOF_
+}
+
+auth_secret() {
+	[ -n "$SECRET" ] &&
+		[ "x$SECRET" = "x$CONTENT_secret" -o "x$SECRET" = "x$URI_secret" ]
+}
+
+auth_tmp_secret() {
+	local tmp_secret= request_tmp_secret=${SCRIPT_NAME##*/}
+	read tmp_secret < "$tmp_secret_file" 2>/dev/null &&
+		[ "x$tmp_secret" = "x$request_tmp_secret" ]
+}
+
+# Usage: $0 [$option= ...] format value
+validate() {
+	local format="$1"
+	shift
+	if [ -r "./validators/$format" ]; then
+		. ./validators/$format
+	fi
+}
+
+# Usage: $0 [$option= ...] format name value
+widget() {
+	local format="$1"
+	shift
+	if [ -r "./widgets/$format" ]; then
+		. ./widgets/$format
+	fi
+}
+
+# request routing
+case "$SCRIPT_NAME" in
+/)
+	. ./handler_config_action_gate
+	;;
+/edit|/edit/*)
+	auth_secret || auth_tmp_secret || forbidden
+	. ./handler_config_action_edit
+	;;
+/show|/show/*)
+	auth_secret || auth_tmp_secret || forbidden
+	. ./handler_config_action_show
+	;;
+*)
+	unhandled
+	;;
+esac
+
+CODE="500 Internal error" output "No output generated"

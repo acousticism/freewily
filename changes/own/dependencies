@@ -1,0 +1,248 @@
+mothership
+tzdata
+libc tzdata
+libgcc_s libc
+libstdcxx libc libgcc_s
+ncurses libc libstdcxx libgcc_s
+readline libc ncurses
+pcre libc libstdcxx libgcc_s readline
+locale libc
+grep libc pcre locale
+awk libc readline ncurses
+attr libc
+acl libc attr
+sed libc acl
+config grep awk sed
+socat libc readline
+http_acceptor libc
+web_layout
+web_config socat config http_acceptor web_layout
+firstrun
+orientation
+appliance mothership config web_config firstrun orientation web_layout
+zlib libc
+host_system_proxy
+perl host_system_proxy
+libtasn1 libc
+nss_libfreebl libc
+libffi libc
+p11-kit libc libtasn1 nss_libfreebl libffi
+bash libc locale ncurses
+ca-certificates p11-kit bash
+pki ca-certificates
+openssl libc zlib perl pki
+curl libc pcre openssl zlib pki
+ncat libc
+acmesh openssl curl ncat pki locale
+thttpd libc
+letsencrypt_certifier acmesh thttpd
+init_framework
+GeoIP-data
+GeoIP libc GeoIP-data
+xz libc
+libxml2 libc zlib xz
+libgpg-error libc
+libgcrypt libc libgpg-error
+libxslt libc libxml2 libgcrypt
+libpng libc zlib
+bzip2 libc
+stock-harfbuzz
+libselinux libc pcre
+elfutils libc zlib xz bzip2 libstdcxx
+glib2 libc pcre libselinux zlib libffi elfutils
+icu libc libstdcxx libgcc_s
+harfbuzz_freetype_runtime libc stock-harfbuzz libstdcxx libgcc_s glib2 icu
+freetype libc libpng bzip2 zlib harfbuzz_freetype_runtime
+expat libc
+libfontenc libc zlib
+libXfont libc zlib freetype libfontenc
+xorg-x11-font-utils libc freetype libfontenc libXfont zlib
+fontconfig libc freetype expat xorg-x11-font-utils
+libgomp libc
+libunistring libc
+gettext libc libstdcxx libgcc_s libgomp libunistring libxml2 ncurses
+libjpeg libc
+jbigkit libc
+libtiff libc zlib libjpeg jbigkit libstdcxx libgcc_s
+libvpx libc libstdcxx libgcc_s
+xorg-x11-proto-devel
+pkgconfig libc
+libXau libc xorg-x11-proto-devel pkgconfig
+libxcb libc libXau
+libX11 libc libxcb
+libXext libc libX11
+libICE libc
+libuuid libc
+libblkid libc
+util-linux libc ncurses libuuid libblkid zlib
+libSM libc libICE util-linux
+libXt libc libX11 libICE libSM
+libXpm libc libX11 libXext libXt
+gd libc freetype fontconfig gettext libjpeg libpng libtiff libvpx libX11 libXpm zlib
+mailcap
+nginx_selfmanagement
+nginx libc init_framework GeoIP pcre openssl libxslt gd mailcap nginx_selfmanagement
+www nginx
+monit libc openssl init_framework
+m4 libc
+autoconf libc m4 perl
+automake libc autoconf perl
+zip libc
+libzip libc zlib
+libedit libc ncurses
+libXmu libc libX11 libXt libXext
+libXaw libc xorg-x11-proto-devel libX11 libXmu libXpm libXt libXext
+t1lib libc libXaw
+libdb libc libstdcxx libgcc_s libgomp
+cracklib libc zlib
+pam libc libdb libselinux cracklib
+keyutils libc
+e2fsprogs libc libblkid libuuid
+stock-libev
+libev libc stock-libev
+libevent libc openssl
+talloc libc
+tevent libc talloc
+libverto libc libev libevent tevent
+krb5 libc keyutils e2fsprogs libverto
+imap libc openssl pam krb5 pki
+recode libc
+gmp libc libstdcxx libgcc_s
+libmcrypt libc
+tidy libc libxslt
+aspell libc libstdcxx ncurses
+hunspell libc libstdcxx libgcc_s ncurses readline
+enchant libc aspell hunspell glib2
+tokyocabinet libc zlib bzip2
+libltdl libc
+unixODBC libc readline libltdl
+nettle libc gmp
+libidn libc
+libatomic_ops libc
+gc libc libstdcxx libgcc_s libatomic_ops
+guile libc gmp libltdl gmp gc libffi readline libunistring
+autogen libc libxml2 zlib guile gc
+unbound libc openssl libevent expat
+gnutls libc nettle libtasn1 libidn zlib p11-kit gc guile autogen unbound
+freetds libc unixODBC libgcrypt gnutls krb5
+sqlite libc readline
+stock-openldap
+nspr libc
+nss-pem libc
+nss libc zlib pkgconfig nspr libstdcxx libgcc_s sqlite nss_libfreebl nss-pem pki
+stock-cyrus-sasl
+libsasl libc stock-cyrus-sasl
+tcp_wrappers libc
+libtool libc libltdl sed
+libopenldap libc stock-openldap nss libsasl krb5 tcp_wrappers libtool
+net-snmp libc openssl tcp_wrappers
+php libc automake autoconf libstdcxx libgcc_s openssl zlib bzip2 zip libzip curl libedit readline pcre gd t1lib imap recode acl gmp icu libmcrypt tidy libxml2 libxslt enchant tokyocabinet libdb unixODBC freetds sqlite libopenldap krb5 libsasl gnutls pam net-snmp sed
+mycnf
+mysql_common
+mysql libc mycnf mysql_common openssl zlib libstdcxx libgcc_s ncurses libedit
+libaio libc
+lzo libc
+lz4
+Judy libc
+jemalloc libc
+mysqld_db
+mysqld_selfmanagement
+mysqld libc init_framework mycnf mysql_common mysql openssl libstdcxx libgcc_s ncurses zlib libaio lzo lz4 xz bzip2 pcre libxml2 Judy jemalloc mysqld_db mysqld_selfmanagement
+logger
+cron_selfmanagement
+cron libc logger init_framework cron_selfmanagement
+libcap libc attr
+env libc
+coreutils libc acl attr libcap gmp env
+cyrus-sasl libc stock-cyrus-sasl libsasl openssl
+exim_selfmanagement
+exim libc pcre sqlite libdb coreutils cyrus-sasl exim_selfmanagement
+php-fpm php init_framework grep awk
+healthchecker monit nginx php mysqld cron exim php-fpm
+findutils libc libselinux
+diskcleaner findutils nginx php mysqld exim php-fpm
+popt libc
+periodic cron nginx php mysqld exim php-fpm
+gzip libc
+logrotate libc popt coreutils periodic gzip nginx cron exim php-fpm
+selfmanagement_preset healthchecker diskcleaner logrotate
+nginx_preset nginx nginx_selfmanagement
+webserver nginx_preset
+php_app_server php-fpm webserver
+phpmyadmin php php_app_server firstrun
+wp-cli php
+libmysqlclient mycnf libstdcxx libgcc_s openssl zlib
+mysqld_scripts mysql mysqld mysqld_db grep
+mysql_preset mysql mysqld libmysqlclient mysqld_db mysqld_scripts mysqld_selfmanagement
+sqldatabase mysqld mysql_preset
+wordpress_db_adapter
+rsync libc acl attr
+patch libc attr
+wordpress_finalizer rsync patch sqldatabase wordpress_db_adapter
+wordpress php wp-cli sqldatabase wordpress_db_adapter php_app_server firstrun www wordpress_finalizer
+init nginx monit mysqld cron exim php-fpm
+service_preset init locale logger config coreutils findutils grep awk sed
+mail_submission exim
+mail_preset mail_submission exim_selfmanagement exim
+cron_preset cron cron_selfmanagement
+tar libc acl
+cpio libc
+lzip libc libstdcxx libgcc_s
+unzip libc bzip2
+unrar libc libstdcxx libgcc_s
+compress_group tar gzip bzip2 cpio lzip xz zip unzip unrar lz4 lzo zlib
+ghostscript-fonts fontconfig xorg-x11-font-utils
+urw-fonts fontconfig xorg-x11-font-utils
+ttmkfdir libc libstdcxx libgcc_s zlib freetype
+xorg-x11-fonts fontconfig xorg-x11-font-utils ttmkfdir
+fonts_group fontconfig ghostscript-fonts urw-fonts xorg-x11-fonts
+libquadmath libc libgcc_s
+fftw libc libquadmath libgomp
+lcms2 libc zlib libjpeg libtiff
+libXrender libc libX11
+libXft libc fontconfig libXrender
+harfbuzzlib libc stock-harfbuzz freetype libstdcxx libgcc_s glib2 icu
+pixman libc libgomp
+hwdata
+libpciaccess libc hwdata
+libdrm libc libpciaccess
+libXfixes libc libX11
+libXdamage libc libX11 libXfixes
+libxshmfence libc
+libXxf86vm libc libX11 libXext
+mesa libc libstdcxx libgcc_s libX11 libdrm expat libXext libXfixes libXdamage libxshmfence libXxf86vm
+cairo libc pixman libX11 libXrender libpng fontconfig freetype zlib glib2 mesa
+pango libc libXft harfbuzzlib cairo glib2 fontconfig
+libcroco libc glib2 libxml2
+mesa-libGLU libc mesa libstdcxx libgcc_s
+libXi libc libX11 libXfixes libXext
+freeglut libc mesa mesa-libGLU libXi libICE libXxf86vm libXext libstdcxx
+jasper libc mesa freeglut mesa-libGLU libjpeg
+gdk-pixbuf libc glib2 libpng libtiff libjpeg jasper libX11
+librsvg2 libc pango libcroco libxml2 gdk-pixbuf
+giflib libc libX11 libICE libSM
+libwebp libc freeglut mesa libpng libjpeg libtiff giflib
+openjpeg2 libc
+poppler-data
+ghostscript libc urw-fonts ghostscript-fonts libX11 libXt libXext lcms2 libtiff openjpeg2 libidn poppler-data fontconfig
+libwmf libc urw-fonts fontconfig libX11 libxml2 libjpeg
+ilmbase libc libstdcxx libgcc_s
+OpenEXR libc libstdcxx libgcc_s zlib ilmbase
+ImageMagick libc libX11 libXt libXext freetype fontconfig zlib libgomp fftw libtool xz lcms2 librsvg2 libwebp libxml2 pango cairo ghostscript libwmf ilmbase OpenEXR
+libpsl libc libidn libunistring
+wget libc openssl pcre libuuid libidn libpsl
+lynx libc mailcap openssl ncurses zlib locale
+webapp_preset service_preset mail_preset periodic cron_preset compress_group fonts_group ImageMagick wget curl lynx GeoIP
+pear php
+environ
+php_composer environ
+php_development_group pear php_composer
+php_pecl_group
+tcl libc zlib
+libpostgresql readline tcl openssl krb5 libopenldap libxml2 libxslt locale
+php_ext_pgsql libpostgresql
+php_ext_pdo_pgsql libpostgresql
+php_ext_group php_ext_pgsql php_ext_pdo_pgsql
+php_preset php php_development_group php_pecl_group php_ext_group environ
+wordpress_preset wordpress webserver www webapp_preset php_preset
+oneclickapp wordpress_preset wordpress_finalizer firstrun

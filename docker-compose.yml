@@ -1,0 +1,373 @@
+version: '3.5'
+
+services:
+
+# -------------------------- Traefik ------------------------------- #
+
+  traefik:
+    image: traefik:v1.6
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      - web
+    labels:
+      - traefik.frontend.rule=Host:traefik.${DOMAIN}
+      - traefik.port=8008
+      - traefik.acme.domains=traefik.${DOMAIN}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro  
+      - ./traefik.toml:/traefik.toml
+      - ./acme.json:/acme.json
+      - traefik-tmp-data:/tmp
+    container_name: traefik
+
+# ------------------------ Jetware LEMP ---------------------------- #
+
+  jetware-wordpress-4:
+    image: jetware/wordpress-4
+    build: .
+    restart: always
+    networks:
+      - web
+    expose:
+      - 80
+      - 1999
+    ports:
+      - 1999:1999
+    labels:
+      - traefik.wordpress.frontend.rule=Host:${DOMAIN},www.${DOMAIN}
+      - traefik.wordpress.port=80
+      - traefik.wordpress.acme.domains=${DOMAIN}
+    volumes:
+      - jetware-persistent-data:/jet/prs
+      - ./app:/jet/app
+      - ./changes/etc/phpmyadmin/config.inc.php:/jet/etc/phpmyadmin/config.inc.php
+    container_name: jetware-wordpress-4
+
+# --------------------------  NextCloud  --------------------------- #
+
+  nextcloud:
+    image: nextcloud:16.0.3-fpm
+    restart: always
+    networks:
+      - web
+    expose:
+      - 9000
+    labels:
+      - traefik.enable=false
+    environment:
+      - "SMTP_HOST=${SMTP_HOST}"
+      - "SMTP_SECURE=${SMTP_SECURE}"
+      - "SMTP_PORT=${SMTP_PORT}"
+      - "SMTP_NAME=${SMTP_NAME}"
+      - "SMTP_PASSWORD=${SMTP_PASSWORD}"
+      - "MAIL_FROM_ADDRESS=${MAIL_FROM_ADDRESS}"
+      - "MAIL_DOMAIN=${MAIL_DOMAIN}"
+    volumes:
+      - nextcloud-data:/var/www/html
+    depends_on:
+      - nextcloud-db
+    container_name: nextcloud
+
+  nextcloud-nginx:
+    image: nginx:1.17
+    restart: always
+    networks:
+      - web
+    expose:
+      - 80
+    labels:
+      - traefik.nextcloud.frontend.rule=Host:drive.${DOMAIN}
+      - traefik.nextcloud.frontend.acme.domains=drive.${DOMAIN}
+    volumes:
+      - ./nextcloud/nginx.conf:/etc/nginx/nginx.conf
+      - nextcloud-data:/var/www/html
+    depends_on:
+      - nextcloud
+    container_name: nextcloud-nginx
+
+  nextcloud-db:
+    image: mariadb:10.3
+    restart: always
+    networks:
+      - web
+    labels:
+      - traefik.enable=false
+    environment:
+      - MYSQL_DATABASE=${NEXTCLOUD_DB}
+      - MYSQL_ROOT_PASSWORD=${NEXTCLOUD_DB_ROOT_PASSWORD}
+      - MYSQL_USER=${NEXTCLOUD_DB_USER}
+      - MYSQL_PASSWORD=${NEXTCLOUD_DB_PASSWORD}
+    volumes:
+      - nextcloud-db-data:/var/lib/mysql
+    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW --bind-address=0.0.0.0
+    container_name: nextcloud-db
+
+
+# -------------------------- OnlyOffice ---------------------------- #
+
+  onlyoffice-community-server:
+    image: onlyoffice/communityserver:10.0.1.897
+    restart: always
+    networks:
+      - web
+    expose:
+      - 80
+      - 5222
+    environment:
+      - ONLYOFFICE_CORE_MACHINEKEY=${ONLYOFFICE_CORE_MACHINEKEY}
+      - DOCUMENT_SERVER_PORT_80_TCP_ADDR=onlyoffice-document-server
+      - MYSQL_SERVER_ROOT_PASSWORD=${MYSQL_SERVER_ROOT_PASSWORD}
+      - MYSQL_SERVER_DB_NAME=${MYSQL_SERVER_DB_NAME} 
+      - MYSQL_SERVER_HOST=onlyoffice-db 
+      - MYSQL_SERVER_USER=${MYSQL_SERVER_USER}
+      - MYSQL_SERVER_PASS=${MYSQL_SERVER_PASS} 
+    labels:
+      - traefik.onlyoffice.frontend.rule=Host:office.${DOMAIN}
+      - traefik.onlyoffice.port=80
+      - traefik.onlyoffice.frontend.acme.domains=office.${DOMAIN}
+    volumes:
+      - onlyoffice-community-data:/var/www/onlyoffice/Data
+      - onlyoffice-community-log:/var/log/onlyoffice
+      - onlyoffice-community-lib:/var/lib/mysql
+      - onlyoffice-document-server-data:/var/www/onlyoffice/DocumentServerData
+    depends_on:
+      - onlyoffice-db
+      - onlyoffice-document-server
+    container_name: onlyoffice-community-server
+
+
+  onlyoffice-db:
+    image: mariadb:10.3
+    restart: always
+    networks:
+      - web
+    environment:
+      - MYSQL_HOST=localhost
+      - MYSQL_ROOT_PASSWORD=${MYSQL_SERVER_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_SERVER_DB_NAME} 
+      - MYSQL_USER=${MYSQL_SERVER_USER}
+      - MYSQL_PASSWORD=${MYSQL_SERVER_PASS}
+    labels:
+      - traefik.enable=false
+    volumes:
+      - onlyoffice-db-data:/var/lib/mysql
+    container_name: onlyoffice-db
+
+
+  onlyoffice-document-server:
+    image: onlyoffice/documentserver:5.3.2.20
+    restart: always
+    networks:
+      - web
+    labels:
+      - traefik.onlyoffice.frontend.rule=Host:docserver.${DOMAIN}
+      - traefik.onlyoffice.port=80
+      - traefik.onlyoffice.frontend.acme.domains=docserver.${DOMAIN}
+    volumes:
+      - onlyoffice-document-server-data:/var/www/onlyoffice/Data
+      - onlyoffice-document-server-log:/var/log/onlyoffice
+      - onlyoffice-document-server-forgotten:/var/lib/onlyoffice/documentserver/App_Data/cache/files/forgotten
+      - onlyoffice-document-server-lib:/var/lib/onlyoffice
+      - onlyoffice-document-server-fonts:/usr/share/fonts/truetype/custom
+      - onlyoffice-document-server-db:/var/lib/postgresql  
+    container_name: onlyoffice-document-server
+
+
+# -------------------------- Matomo ---------------------------- #
+
+  matomo:
+    image: matomo:fpm-alpine
+    restart: always
+    networks:
+      - web
+    expose:
+      - 9000
+    labels:
+      - traefik.enable=false
+    environment:
+      - MATOMO_HOST=matomo-db
+      - MYSQL_DATABASE=${MATOMO_DB}
+      - MYSQL_ROOT_PASSWORD=${MATOMO_DB_ROOT_PASSWORD}
+      - MYSQL_USER=${MATOMO_DB_USER}
+      - MYSQL_PASSWORD=${MATOMO_DB_PASSWORD}
+    volumes:
+      - matomo-data:/var/www/html
+    depends_on:
+      - matomo-db
+    container_name: matomo
+
+  matomo-nginx:
+    image: nginx:1.17
+    restart: always
+    networks:
+      - web
+    expose:
+      - 80
+    labels:
+      - traefik.matomo.frontend.rule=Host:data.${DOMAIN}
+      - traefik.matomo.port=80
+      - traefik.matomo.frontend.acme.domains=data.${DOMAIN}
+    volumes:
+      - matomo-data:/var/www/html:ro
+      - ./matomo/matomo.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - matomo
+    container_name: matomo-nginx
+
+  matomo-db:
+    image: mariadb:10.3
+    restart: always
+    networks:
+      - web
+    labels:
+      - traefik.enable=false
+    environment:
+      - MYSQL_DATABASE=${MATOMO_DB}
+      - MYSQL_ROOT_PASSWORD=${MATOMO_DB_ROOT_PASSWORD}
+      - MYSQL_USER=${MATOMO_DB_USER}
+      - MYSQL_PASSWORD=${MATOMO_DB_PASSWORD}
+    volumes:
+      - matomo-db-data:/var/lib/mysql
+    command: --max-allowed-packet=64MB --bind-address=0.0.0.0
+    container_name: matomo-db
+
+# -------------------------- Zabbix ---------------------------- #
+
+  zabbix-server:
+    image: zabbix/zabbix-server-mysql:ubuntu-4.0.10
+    restart: always
+    networks:
+      - web
+    expose:
+      - 10051
+    labels:
+      - traefik.enable=false
+    environment:
+      - "DB_SERVER_HOST=zabbix-db"
+      - "MYSQL_DATABASE=${ZABBIX_MYSQL_DATABASE}"
+      - "MYSQL_USER=${ZABBIX_MYSQL_USER}"
+      - "MYSQL_PASSWORD=${ZABBIX_MYSQL_PASSWORD}"
+      - "MYSQL_ROOT_PASSWORD=${ZABBIX_MYSQL_ROOT_PASSWORD}"
+      - "ZBX_AGENT=zabbix-agent"
+      - "TZ=America/North_Dakota"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - zabbix-alertscripts:/usr/lib/zabbix/alertscripts:ro
+      - zabbix-externalscripts:/usr/lib/zabbix/externalscripts:ro
+      - zabbix-modules:/var/lib/zabbix/modules:ro
+      - zabbix-enc:/var/lib/zabbix/enc:ro
+      - zabbix-ssh_keys:/var/lib/zabbix/ssh_keys:ro
+      - zabbix-mibs:/var/lib/zabbix/mibs:ro
+      - zabbix-snmptraps:/var/lib/zabbix/snmptraps:ro
+      - zabbix-ssl-certs:/var/lib/zabbix/ssl/certs:ro
+      - zabbix-ssl-keys:/var/lib/zabbix/ssl/keys:ro
+      - zabbix-ssl-ca:/var/lib/zabbix/ssl/ssl_ca:ro
+    depends_on:
+      - zabbix-db
+      - zabbix-agent
+    container_name: zabbix-server
+
+  zabbix-nginx:
+    image: zabbix/zabbix-web-nginx-mysql:ubuntu-4.0.10
+    restart: always
+    networks:
+      - web
+    environment:
+      - "DB_SERVER_HOST=zabbix-db"
+      - "MYSQL_DATABASE=${ZABBIX_MYSQL_DATABASE}"
+      - "MYSQL_USER=${ZABBIX_MYSQL_USER}"
+      - "MYSQL_PASSWORD=${ZABBIX_MYSQL_PASSWORD}"
+      - "MYSQL_ROOT_PASSWORD=${ZABBIX_MYSQL_ROOT_PASSWORD}"
+      - "ZBX_CACHESIZE=128M"
+      - "ZBX_VALUECACHESIZE=128M"
+    labels:
+      - traefik.zabbix.frontend.rule=Host:monitor.${DOMAIN}
+      - traefik.zabbix.port=80
+      - traefik.zabbix.frontend.acme.domains=monitor.${DOMAIN}
+    depends_on:
+      - zabbix-server
+    volumes:
+      - zabbix-nginx-ssl:/etc/ssl/nginx
+      - /etc/localtime:/etc/localtime:ro
+    container_name: zabbix-nginx
+
+  zabbix-db:
+    image: mysql:5.7
+    restart: always
+    networks:
+      - web
+    expose:
+      - 3306
+    labels:
+      - traefik.enable=false
+    environment:
+      - "MYSQL_DATABASE=${ZABBIX_MYSQL_DATABASE}"
+      - "MYSQL_USER=${ZABBIX_MYSQL_USER}"
+      - "MYSQL_PASSWORD=${ZABBIX_MYSQL_PASSWORD}"
+      - "MYSQL_ROOT_PASSWORD=${ZABBIX_MYSQL_ROOT_PASSWORD}"
+    volumes:
+      - zabbix-db-data:/var/lib/mysql
+      - /etc/localtime:/etc/localtime:ro
+    command: 
+      - 'mysqld'
+      - '--character-set-server=utf8'
+      - '--collation-server=utf8_bin'
+    container_name: zabbix-db
+
+  zabbix-agent:
+    image: zabbix/zabbix-agent:ubuntu-4.0.10
+    restart: always
+    networks:
+      - web
+    expose:
+      - 10050
+    labels:
+      - traefik.enable=false
+    environment:
+      ZBX_HOSTNAME: monitor.${DOMAIN}
+      ZBX_SERVER_HOST: zabbix-server
+    volumes:
+      - zabbix-modules:/var/lib/zabbix/modules:ro
+      - zabbix-agent:/etc/zabbix/zabbix_agentd.d
+      - zabbix-agent-enc:/var/lib/zabbix/enc:ro
+    container_name: zabbix-agent
+
+# ------------------- Container Volumes + Network ----------------- #
+
+networks:
+  web:
+
+volumes:
+  traefik-tmp-data:
+  jetware-persistent-data:
+  nextcloud-data:
+  nextcloud-db-data:
+  onlyoffice-community-data:
+  onlyoffice-community-log:
+  onlyoffice-community-lib:
+  onlyoffice-db-data:
+  onlyoffice-document-server-data:
+  onlyoffice-document-server-log:
+  onlyoffice-document-server-forgotten:
+  onlyoffice-document-server-lib:
+  onlyoffice-document-server-fonts:
+  onlyoffice-document-server-db:
+  matomo-db-data:
+  matomo-data:
+  zabbix-alertscripts:
+  zabbix-externalscripts:
+  zabbix-modules:
+  zabbix-enc:
+  zabbix-ssh_keys:
+  zabbix-mibs:
+  zabbix-snmptraps:
+  zabbix-ssl-certs:
+  zabbix-ssl-keys:
+  zabbix-nginx-ssl: 
+  zabbix-db-data:
+  zabbix-agent:
+  zabbix-agent-enc:
+  zabbix-ssl-ca:

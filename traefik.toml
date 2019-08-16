@@ -1,0 +1,43 @@
+InsecureSkipVerify = true
+defaultEntryPoints = ["http","https"]
+
+logLevel = "INFO"
+
+[api]
+
+[docker]
+
+[entryPoints]
+
+  [entryPoints.http]
+    address = ":80"
+
+  [entryPoints.http.redirect]
+    entryPoint = "https"
+
+  [entryPoints.https]
+    address = ":443"
+
+    [entryPoints.https.tls]
+  
+    [entryPoints.https.redirect]
+      regex = "^https://www.(.*)"
+      replacement = "https://$1"
+      permanent = true
+
+  [entryPoints.traefik]
+  address = ":8008"
+
+    [entryPoints.traefik.auth]
+
+      [entryPoints.traefik.auth.basic]
+      users = [
+        "yassine:$apr1$kEOSlK8g$GWERRcM/F3SCjB3Hujmo5."
+      ]
+
+[acme]
+email = "<YOUR-EMAIL-ADDRESS>"
+storage = "acme.json"
+entryPoint = "https"
+OnHostRule = true
+[acme.httpChallenge]

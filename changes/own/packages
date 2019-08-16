@@ -1,0 +1,249 @@
+GeoIP-1.6.10 GeoIP GeoIP 1.6.10
+GeoIP-GeoLite-data-2017.04 GeoIP-data GeoIP-GeoLite-data 2017.04
+Judy-1.0.5 Judy Judy 1.0.5
+OpenEXR-2.2.0 OpenEXR OpenEXR 2.2.0
+acl-2.2.52 acl acl 2.2.52
+acmesh-2.6.8 acmesh acmesh 2.6.8
+aspell-0.60.6.1 aspell aspell 0.60.6.1
+attr-2.4.47 attr attr 2.4.47
+autoconf-2.69 autoconf autoconf 2.69
+autogen-5.18.10 autogen autogen 5.18.10
+automake-1.15 automake automake 1.15
+bash-4.3.43 bash bash 4.3.43
+bzip2-1.0.6 bzip2 bzip2 1.0.6
+ca-certificates-2017.4.28 ca-certificates ca-certificates 2017.4.28
+cairo-1.14.4 cairo cairo 1.14.4
+compress_group compress_group group_compress 
+config config config 
+coreutils-8.25-jet-1 coreutils coreutils 8.25-jet-1
+coreutils-env-8.25 env coreutils-env 8.25
+cpio-2.12 cpio cpio 2.12
+cracklib-2.9.6 cracklib cracklib 2.9.6
+cron-periodic periodic cron-periodic 
+cron_preset cron_preset cron_preset 
+cron_selfmanagement-1 cron_selfmanagement cron_selfmanagement 1
+cronie-1.5.1-jet-3 cron cronie 1.5.1-jet-3
+cyrus-sasl-2.1.26 cyrus-sasl cyrus-sasl 2.1.26
+db-5.3.28 libdb db 5.3.28
+diskcleaner diskcleaner diskcleaner 
+elfutils-0.165 elfutils elfutils 0.165
+environ-1.0 environ environ 1.0
+exim-mail_submission mail_submission exim-mail_submission 
+exim-mail_submission-mail_preset mail_preset exim-mail_submission-mail_preset 
+exim_selfmanagement-1 exim_selfmanagement exim_selfmanagement 1
+expat-2.2.0 expat expat 2.2.0
+fftw-3.3.4 fftw fftw 3.3.4
+findutils-4.6.0 findutils findutils 4.6.0
+firstrun-0.1 firstrun firstrun 0.1
+fontconfig-2.12.0 fontconfig fontconfig 2.12.0
+fonts_group fonts_group group_fonts 
+freeglut-3.0.0 freeglut freeglut 3.0.0
+freetds-0.95.81 freetds freetds 0.95.81
+freetype-2.6.3 freetype freetype 2.6.3
+gawk-4.1.4 awk gawk 4.1.4
+gc-7.4.2 gc gc 7.4.2
+gcc-libgcc_s-4.9.3 libgcc_s gcc-libgcc_s 4.9.3
+gcc-libgomp-4.9.3 libgomp gcc-libgomp 4.9.3
+gcc-libquadmath-4.9.3 libquadmath gcc-libquadmath 4.9.3
+gcc-libstdcxx-4.9.3 libstdcxx gcc-libstdcxx 4.9.3
+gd-2.2.4 gd gd 2.2.4
+gdk-pixbuf-2.33.2 gdk-pixbuf gdk-pixbuf 2.33.2
+gettext-0.19.8.1 gettext gettext 0.19.8.1
+ghostscript-9.16 ghostscript ghostscript 9.16
+ghostscript-fonts-5.50 ghostscript-fonts ghostscript-fonts 5.5
+giflib-4.1.6 giflib giflib 4.1.6
+glib2-2.49.1 glib2 glib2 2.49.1
+glibc-2.22 libc glibc 2.22
+glibc-locale-2.22 locale glibc-locale 2.22
+gmp-6.1.1 gmp gmp 6.1.1
+gnutls-3.5.10 gnutls gnutls 3.5.10
+grep-2.24 grep grep 2.24
+guile-2.0.11 guile guile 2.0.11
+gzip-1.8 gzip gzip 1.8
+harfbuzz_freetype_runtime-1.2.7 harfbuzz_freetype_runtime harfbuzz_freetype_runtime 1.2.7
+harfbuzzlib-1.2.7 harfbuzzlib harfbuzzlib 1.2.7
+host-logger logger host-logger 
+host-perl perl host-perl 
+host_system_proxy host_system_proxy host_system_proxy 
+http_acceptor-1 http_acceptor http_acceptor 1
+hunspell-1.3.3 hunspell hunspell 1.3.3
+hwdata-0.286 hwdata hwdata 0.286
+icu-56.1 icu icu 56.1
+ilmbase-2.2.0 ilmbase ilmbase 2.2.0
+init_framework-1.1 init_framework init_framework 1.1
+jasper-1.900.1 jasper jasper 1.900.1
+jbigkit-2.1 jbigkit jbigkit 2.1
+jemalloc-4.5.0 jemalloc jemalloc 4.5.0
+jetware-web_layout web_layout jetware-web_layout 
+keyutils-1.5.9 keyutils keyutils 1.5.9
+krb5-1.14 krb5 krb5 1.14
+lcms2-2.7 lcms2 lcms2 2.7
+letsencrypt-ssl_webserver-1 ssl_webserver letsencrypt-ssl_webserver 1
+letsencrypt_certifier-1 letsencrypt_certifier letsencrypt_certifier 1
+libICE-1.0.9 libICE libICE 1.0.9
+libSM-1.2.2 libSM libSM 1.2.2
+libX11-1.6.3 libX11 libX11 1.6.3
+libXau-1.0.8 libXau libXau 1.0.8
+libXaw-1.0.13 libXaw libXaw 1.0.13
+libXdamage-1.1.4 libXdamage libXdamage 1.1.4
+libXext-1.3.3 libXext libXext 1.3.3
+libXfixes-5.0.2 libXfixes libXfixes 5.0.2
+libXfont-1.5.1 libXfont libXfont 1.5.1
+libXft-2.3.2 libXft libXft 2.3.2
+libXi-1.7.6 libXi libXi 1.7.6
+libXmu-1.1.2 libXmu libXmu 1.1.2
+libXpm-3.5.11 libXpm libXpm 3.5.11
+libXrender-0.9.9 libXrender libXrender 0.9.9
+libXt-1.1.5 libXt libXt 1.1.5
+libXxf86vm-1.1.4 libXxf86vm libXxf86vm 1.1.4
+libaio-0.3.110 libaio libaio 0.3.110
+libatomic_ops-7.4.4 libatomic_ops libatomic_ops 7.4.4
+libblkid-2.28 libblkid libblkid 2.28
+libcap-2.24 libcap libcap 2.24
+libcroco-0.6.11 libcroco libcroco 0.6.11
+libedit-3.1 libedit libedit 3.1
+libev-4.22 libev libev 4.22
+libevent-2.0.22 libevent libevent 2.0.22
+libffi-3.2.1 libffi libffi 3.2.1
+libfontenc-1.1.3 libfontenc libfontenc 1.1.3
+libgcrypt-1.6.4 libgcrypt libgcrypt 1.6.4
+libgpg-error-1.21 libgpg-error libgpg-error 1.21
+libjpeg-turbo-1.4.2 libjpeg libjpeg-turbo 1.4.2
+libltdl-2.4.6 libltdl libltdl 2.4.6
+libmcrypt-2.5.8 libmcrypt libmcrypt 2.5.8
+libopenldap-2.4.43 libopenldap libopenldap 2.4.43
+libpciaccess-0.13.4 libpciaccess libpciaccess 0.13.4
+libpng-1.6.23 libpng libpng 1.6.23
+libpostgrespro-9.6.3.1 libpostgresql libpostgrespro 9.6.3.1
+libpsl-0.13.0 libpsl libpsl 0.13.0
+libsasl-2.1.26 libsasl libsasl 2.1.26
+libselinux-2.4 libselinux libselinux 2.4
+libtasn1-4.10 libtasn1 libtasn1 4.10
+libtiff-4.0.6 libtiff libtiff 4.0.6
+libtool-2.4.6 libtool libtool 2.4.6
+libunistring-0.9.6 libunistring libunistring 0.9.6
+libuuid-2.28 libuuid libuuid 2.28
+libverto-0.2.6 libverto libverto 0.2.6
+libvpx-1.5.0 libvpx libvpx 1.5.0
+libwmf-0.2.8.4 libwmf libwmf 0.2.8.4
+libxcb-1.12 libxcb libxcb 1.12
+libxml2-2.9.3 libxml2 libxml2 2.9.3
+libxshmfence-1.2 libxshmfence libxshmfence 1.2
+libxslt-1.1.28 libxslt libxslt 1.1.28
+libzip-1.1.3 libzip libzip 1.1.3
+linux-appliance-mothership-0.1 mothership linux-appliance-mothership 0.1
+linux-jetware-appliance-1 appliance linux-jetware-appliance 1
+logrotate-3.11.0 logrotate logrotate 3.11.0
+lynx-2.8.9 lynx lynx 2.8.9
+lz4-r131 lz4 lz4 
+lzip-1.18 lzip lzip 1.18
+lzo-2.09 lzo lzo 2.09
+m4-1.4.17 m4 m4 1.4.17
+mail_submission-exim-4.89-jet-1 exim mail_submission-exim 4.89-jet-1
+mailcap-2.1.47 mailcap mailcap 2.1.47
+mariadb-libmysqlclient-10.2.6--connector-c2.3.2 libmysqlclient mariadb-libmysqlclient 10.2.6
+mariadb-mycnf-10.2.6 mycnf mariadb-mycnf 10.2.6
+mariadb-mysql-10.2.6 mysql mariadb-mysql 10.2.6
+mariadb-mysql_common-10.2.6 mysql_common mariadb-mysql_common 10.2.6
+mariadb-mysqld-10.2.6 mysqld mariadb-mysqld 10.2.6
+mariadb-mysqld_db--10.2.6 mysqld_db mariadb-mysqld_db 
+mesa-libGLU-9.0.0 mesa-libGLU mesa-libGLU 9.0.0
+min-ImageMagick-6.9.3.7 ImageMagick min-ImageMagick 6.9.3.7
+min-curl-7.54.0 curl min-curl 7.54.0
+min-e2fsprogs-1.42.13 e2fsprogs min-e2fsprogs 1.42.13
+min-enchant-1.6.0 enchant min-enchant 1.6.0
+min-libdrm-2.4.67 libdrm min-libdrm 2.4.67
+min-libidn-1.32 libidn min-libidn 1.32
+min-librsvg2-2.40.13 librsvg2 min-librsvg2 2.40.13
+min-libwebp-0.5.0 libwebp min-libwebp 0.5.0
+min-mesa-11.2.0 mesa min-mesa 11.2.0
+min-nginx-1.12.0 nginx min-nginx 1.12.0
+min-stock-harfbuzz-1.2.7 stock-harfbuzz min-stock-harfbuzz 1.2.7
+min-unbound-1.5.9 unbound min-unbound 1.5.9
+min-util-linux-2.28 util-linux min-util-linux 2.28
+monit-5.19.0-jet-3 monit monit 5.19.0-jet-3
+monit-healthchecker-1 healthchecker monit-healthchecker 1
+multitask-init-1.5.1 init multitask-init 1.5.1
+mysql-sqldatabase-1 sqldatabase mysql-sqldatabase 1
+mysql-wordpress_db_adapter wordpress_db_adapter mysql-wordpress_db_adapter 
+mysql-wordpress_finalizer--wordpress-4.8 wordpress_finalizer mysql-wordpress_finalizer 
+mysql_preset mysql_preset mysql_preset 
+mysqld_scripts-1 mysqld_scripts mysqld_scripts 1
+mysqld_selfmanagement-1 mysqld_selfmanagement mysqld_selfmanagement 1
+ncat-7.40 ncat ncat 7.40
+ncurses-6.0 ncurses ncurses 6.0
+net-snmp-5.7.3-jet-1--mysql5.7 net-snmp net-snmp 5.7.3-jet-1
+nettle-3.2 nettle nettle 3.2
+nginx-webserver-1 webserver nginx-webserver 1
+nginx-www-4 www nginx-www 4
+nginx_preset nginx_preset nginx_preset 
+nginx_selfmanagement-1 nginx_selfmanagement nginx_selfmanagement 1
+nspr-4.14 nspr nspr 4.14
+nss-3.30.2 nss nss 3.30.2
+nss-pem-1.0.3--nss-3.30.2 nss-pem nss-pem 1.0.3
+nss_libfreebl-3.30.2 nss_libfreebl nss_libfreebl 3.30.2
+openjpeg2-2.1.0 openjpeg2 openjpeg2 2.1.0
+openssl-1.0.2l openssl openssl 1.0.2l
+orientation orientation orientation 
+p11-kit-0.23.5 p11-kit p11-kit 0.23.5
+pam-1.2.1 pam pam 1.2.1
+pango-1.39.0 pango pango 1.39.0
+patch-2.7.5 patch patch 2.7.5
+pcre-8.39 pcre pcre 8.39
+pear-1.10.1 pear pear 1.10.1
+php-7.1.6 php php 7.1.6
+php-fpm-7.1.6 php-fpm php-fpm 7.1.6
+php_composer-1.4.2 php_composer php_composer 1.4.2
+php_development_group-2 php_development_group php_development_group 2
+php_ext_group php_ext_group php_ext_group 
+php_ext_pdo_pgsql--php-7.1.1--libpostgrespro-9.6.1.1 php_ext_pdo_pgsql php_ext_pdo_pgsql 
+php_ext_pgsql--php-7.1.3--libpostgrespro-9.6.1.1 php_ext_pgsql php_ext_pgsql 
+php_pecl_group-2--php7.1 php_pecl_group php_pecl_group 2
+php_preset-1.2 php_preset php_preset 1.2
+phpfpm-php_app_server--nginx php_app_server phpfpm-php_app_server 
+phpmyadmin-4.7.2 phpmyadmin phpmyadmin 4.7.2
+pixman-0.34.0 pixman pixman 0.34.0
+pkgconfig-0.29 pkgconfig pkgconfig 0.29
+pki-1.1 pki pki 1.1
+poppler-data-0.4.7 poppler-data poppler-data poppler-data
+popt-1.16 popt popt 1.16
+readline-6.3 readline readline 6.3
+recode-3.6 recode recode 3.6
+rsync-3.1.2 rsync rsync 3.1.2
+sed-4.2.2 sed sed 4.2.2
+selfmanagement_preset selfmanagement_preset selfmanagement_preset 
+service_preset service_preset service_preset 
+socat-1.7.3.2 socat socat 1.7.3.2
+sqlite-3.13 sqlite sqlite 3.13
+stock-cyrus-sasl-2.1.26 stock-cyrus-sasl stock-cyrus-sasl 2.1.26
+stock-libev-4.22 stock-libev stock-libev 4.22
+stock-openldap-2.4.43 stock-openldap stock-openldap 2.4.43
+t1lib-5.1.2 t1lib t1lib 5.1.2
+talloc-2.1.5 talloc talloc 2.1.5
+tar-1.29 tar tar 1.29
+tcl-8.6.5 tcl tcl 8.6.5
+tcp_wrappers_7.6 tcp_wrappers tcp_wrappers 7.6
+temp-wp-cli-1.1.0 wp-cli binary-wp-cli 1.1.0
+tevent-0.9.26 tevent tevent 0.9.26
+thttpd-2.27 thttpd thttpd 2.27
+tidy-5.0.0 tidy tidy 5.0.0
+tokyocabinet-1.4.48 tokyocabinet tokyocabinet 1.4.48
+ttmkfdir-3.0.9 ttmkfdir ttmkfdir 3.0.9
+tzdata-2017b tzdata tzdata 2017b
+unixODBC-2.3.4 unixODBC unixODBC 2.3.4
+unrar-5.3.11 unrar unrar 5.3.11
+unzip-6.0 unzip unzip 6.0
+urw-fonts-1.0.7pre44 urw-fonts urw-fonts 1.0.7pre44
+uw-imap-2007f imap uw-imap 2007f
+web_config web_config web_config 
+webapp_preset-1 webapp_preset webapp_preset 1
+wget-1.18 wget wget 1.18
+wordpress-4.8 wordpress wordpress 4.8
+wordpress-oneclickapp-2 oneclickapp wordpress-oneclickapp 2
+wordpress_preset-1.1 wordpress_preset wordpress_preset 1.1
+xorg-x11-font-utils-7.5 xorg-x11-font-utils xorg-x11-font-utils 7.5
+xorg-x11-fonts-7.5 xorg-x11-fonts xorg-x11-fonts 7.5
+xorg-x11-proto-devel xorg-x11-proto-devel xorg-x11-proto-devel 7.7
+xz-5.2.2 xz xz 5.2.2
+zip-3.0 zip zip 3.0
+zlib-1.2.11 zlib zlib 1.2.11
