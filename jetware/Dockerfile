@@ -6,14 +6,14 @@ RUN { wget --no-check-certificate -O - "http://jetware.io/appliances/jetware/wor
 
 WORKDIR /jet
 
-COPY ../changes/use/web_config/handler_config /jet/use/web_config/handler_config
+COPY ./changes/use/web_config/handler_config /jet/use/web_config/handler_config
 RUN chown -R jet:nogroup /jet/use/web_config && chmod -R 755 /jet/use/web_config
 
-COPY ../changes/own/packages /jet/own/packages
-COPY ../changes/own/dependencies /jet/own/dependencies
-COPY ../changes/own/requires /jet/own/requires
-COPY ../changes/own/principal /jet/own/principal
-COPY ../changes/own/sequence /jet/own/sequence
+COPY ./changes/own/packages /jet/own/packages
+COPY ./changes/own/dependencies /jet/own/dependencies
+COPY ./changes/own/requires /jet/own/requires
+COPY ./changes/own/principal /jet/own/principal
+COPY ./changes/own/sequence /jet/own/sequence
 
 USER jet
 VOLUME ["/jet/prs"]

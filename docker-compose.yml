@@ -27,7 +27,7 @@ services:
 
   jetware-wordpress-4:
     image: jetware/wordpress-4
-    build: .
+    build: ./jetware
     restart: always
     networks:
       - web
@@ -42,8 +42,8 @@ services:
       - traefik.wordpress.acme.domains=${DOMAIN}
     volumes:
       - jetware-persistent-data:/jet/prs
-      - ./app:/jet/app
-      - ./changes/etc/phpmyadmin/config.inc.php:/jet/etc/phpmyadmin/config.inc.php
+      - ./jetware/app:/jet/app
+      - ./jetware/changes/etc/phpmyadmin/config.inc.php:/jet/etc/phpmyadmin/config.inc.php
     container_name: jetware-wordpress-4
 
 # --------------------------  NextCloud  --------------------------- #
@@ -335,6 +335,101 @@ services:
       - zabbix-agent-enc:/var/lib/zabbix/enc:ro
     container_name: zabbix-agent
 
+
+# -------------------------- Discourse ------------------------ #
+
+  discourse:
+    image: bitnami/discourse:2.3.2
+    networks:
+      - web
+    labels:
+      - traefik.discourse.frontend.rule=Host:forum.${DOMAIN}
+      - traefik.discourse.port=3000
+      - traefik.discourse.frontend.acme.domains=forum.${DOMAIN}
+    environment:
+      - DISCOURSE_HOSTNAME=forum.${DOMAIN}
+      - DISCOURSE_USERNAME=${DISCOURSE_ROOT_USER}
+      - DISCOURSE_PASSWORD=${DISCOURSE_ROOT_PASS}
+      - DISCOURSE_EMAIL=${DISCOURSE_EMAIL}
+      - DISCOURSE_SITENAME=${DISCOURSE_SITENAME}
+      - POSTGRESQL_HOST=discourse-postgresql
+      - POSTGRESQL_ROOT_PASSWORD=${DISCOURSE_POSTGRESQL_ROOT_PASSWORD}
+      - DISCOURSE_POSTGRESQL_NAME=${DISCOURSE_POSTGRESQL_DB_NAME}
+      - DISCOURSE_POSTGRESQL_USERNAME=${DISCOURSE_POSTGRESQL_USERNAME}
+      - DISCOURSE_POSTGRESQL_PASSWORD=${DISCOURSE_POSTGRESQL_PASSWORD}
+      - REDIS_HOST=discourse-redis
+      - REDIS_PASSWORD=${DISCOURSE_REDIS_PASSWORD}
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_USER=${SMTP_NAME}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+      - SMTP_PORT=${SMTP_PORT}
+    volumes:
+      - discourse-data:/bitnami
+    depends_on:
+      - discourse-postgresql
+      - discourse-redis
+    container_name: discourse
+
+  sidekiq:
+    image: bitnami/discourse:2.3.2
+    networks:
+      - web
+    labels:
+      - traefik.enable=false
+    environment:
+      - DISCOURSE_HOSTNAME=forum.${DOMAIN}
+      - DISCOURSE_USERNAME=${DISCOURSE_ROOT_USER}
+      - DISCOURSE_PASSWORD=${DISCOURSE_ROOT_PASS}
+      - DISCOURSE_EMAIL=${DISCOURSE_EMAIL}
+      - DISCOURSE_SITENAME=${DISCOURSE_SITENAME}
+      - POSTGRESQL_HOST=discourse-postgresql
+      - POSTGRESQL_ROOT_PASSWORD=${DISCOURSE_POSTGRESQL_ROOT_PASSWORD}
+      - DISCOURSE_POSTGRESQL_NAME=${DISCOURSE_POSTGRESQL_DB_NAME}
+      - DISCOURSE_POSTGRESQL_USERNAME=${DISCOURSE_POSTGRESQL_USERNAME}
+      - DISCOURSE_POSTGRESQL_PASSWORD=${DISCOURSE_POSTGRESQL_PASSWORD}
+      - REDIS_HOST=discourse-redis
+      - REDIS_PASSWORD=${DISCOURSE_REDIS_PASSWORD}
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_USER=${SMTP_NAME}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+      - SMTP_PORT=${SMTP_PORT}
+      - DISCOURSE_HOST=discourse
+      - DISCOURSE_PORT=3000
+    volumes:
+      - sidekiq-data:/bitnami
+    command: 'nami start --foreground discourse-sidekiq'
+    depends_on:
+      - discourse
+    container_name: sidekiq
+
+  discourse-postgresql:
+    image: bitnami/postgresql:11
+    networks:
+      - web
+    labels:
+      - traefik.enable=false
+    environment:
+      - POSTGRESQL_POSTGRES_PASSWORD=${DISCOURSE_POSTGRESQL_ROOT_PASSWORD}
+      - POSTGRESQL_DATABASE=${DISCOURSE_POSTGRESQL_DB_NAME}
+      - POSTGRESQL_USERNAME=${DISCOURSE_POSTGRESQL_USERNAME}
+      - POSTGRESQL_PASSWORD=${DISCOURSE_POSTGRESQL_PASSWORD}
+    volumes:
+      - discourse-postgresql-data:/bitnami/postgresql
+    container_name: discourse-postgresql
+
+  discourse-redis:
+    image: bitnami/redis:5.0
+    networks:
+      - web
+    labels:
+      - traefik.enable=false
+    environment:
+      - REDIS_PASSWORD=${DISCOURSE_REDIS_PASSWORD}
+    volumes:
+      - discourse-redis-data:/bitnami
+    container_name: discourse-redis
+    
+
 # ------------------- Container Volumes + Network ----------------- #
 
 networks:
@@ -371,3 +466,7 @@ volumes:
   zabbix-agent:
   zabbix-agent-enc:
   zabbix-ssl-ca:
+  discourse-data:
+  sidekiq-data:
+  discourse-postgresql-data:
+  discourse-redis-data:
